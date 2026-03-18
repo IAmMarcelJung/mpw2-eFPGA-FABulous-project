@@ -1,8 +1,8 @@
-`timescale 1ps/1ps
-module sequential_16bit_en_tb;
+`timescale 1ps / 1ps
+module top_tb;
     wire [23:0] I_top;
     wire [23:0] T_top;
-    reg [23:0] O_top = 0;
+    reg  [23:0] O_top = 0;
     wire [63:0] A_cfg, B_cfg;
 
     reg CLK = 1'b0;
@@ -20,9 +20,12 @@ module sequential_16bit_en_tb;
         .I_top(I_top),
         .T_top(T_top),
         .O_top(O_top),
-        .A_config_C(A_cfg), .B_config_C(B_cfg),
-        .CLK(CLK), .resetn(resetn),
-        .SelfWriteStrobe(SelfWriteStrobe), .SelfWriteData(SelfWriteData),
+        .A_config_C(A_cfg),
+        .B_config_C(B_cfg),
+        .CLK(CLK),
+        .resetn(resetn),
+        .SelfWriteStrobe(SelfWriteStrobe),
+        .SelfWriteData(SelfWriteData),
         .Rx(Rx),
         .ComActive(ComActive),
         .ReceiveLED(ReceiveLED),
@@ -52,16 +55,16 @@ module sequential_16bit_en_tb;
     reg have_errors = 1'b0;
     initial begin
 `ifdef CREATE_FST
-        $dumpfile("mpw2/Test/sequential_16bit_en_tb.fst");
-        $dumpvars(0, sequential_16bit_en_tb);
+        $dumpfile("mpw2/Test/top_tb.fst");
+        $dumpvars(0, top_tb);
 `endif
 `ifdef CREATE_VCD
-        $dumpfile("mpw2/Test/sequential_16bit_en_tb.vcd");
-        $dumpvars(0, sequential_16bit_en_tb);
+        $dumpfile("mpw2/Test/top_tb.vcd");
+        $dumpvars(0, top_tb);
 `endif
 `ifndef EMULATION
 
-        fd = $fopen("mpw2/user_design/sequential_16bit_en.hex", "r");
+        fd = $fopen("mpw2/user_design/top.hex", "r");
         if (fd == 0) begin
             $display("Hexfile not found!");
             $fatal;
@@ -69,7 +72,7 @@ module sequential_16bit_en_tb;
             $fclose(fd);
         end
 
-        $readmemh("mpw2/user_design/sequential_16bit_en.hex", bitstream);
+        $readmemh("mpw2/user_design/top.hex", bitstream);
 
         #100;
         resetn = 1'b0;
@@ -88,30 +91,33 @@ module sequential_16bit_en_tb;
         end
 `endif
         repeat (100) @(posedge CLK);
-        O_top = 24'b1000_0000_0000_0000_0000_0000; // enable and reset
+        O_top = 24'b1000_0000_0000_0000_0000_0000;  // enable and reset
         repeat (5) @(posedge CLK);
         O_top = 24'b1100_0000_0000_0000_0000_0000;
         for (i = 0; i < 100; i = i + 1) begin
             @(negedge CLK);
-            $display("fabric(I_top) = 0x%X gold = 0x%X, fabric(T_top) = 0x%X gold = 0x%X", I_top, I_top_gold, T_top, T_top_gold);
-            if (I_top !== I_top_gold)
-                have_errors = 1'b1;
-            if (T_top !== T_top_gold)
-                have_errors = 1'b1;
+            $display("fabric(I_top) = 0x%X gold = 0x%X, fabric(T_top) = 0x%X gold = 0x%X", I_top,
+                     I_top_gold, T_top, T_top_gold);
+            if (I_top !== I_top_gold) have_errors = 1'b1;
+            if (T_top !== T_top_gold) have_errors = 1'b1;
         end
 
-        if (have_errors)
-            $fatal;
-        else
-            $finish;
+        if (have_errors) $fatal;
+        else $finish;
     end
 
 endmodule
 
-module clk_buf(input A, output X);
-assign X = A;
+module clk_buf (
+    input  A,
+    output X
+);
+    assign X = A;
 endmodule
 
-module break_comb_loop(input A, output X);
-assign X = A;
+module break_comb_loop (
+    input  A,
+    output X
+);
+    assign X = A;
 endmodule
