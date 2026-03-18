@@ -1,0 +1,3 @@
+FAB_PROJ_LANG='verilog'
+FAB_MODELS_PACK='mpw2-myrtle-demo/Fabric/models_pack.v'
+FAB_PDK='ihp-sg13g2'
