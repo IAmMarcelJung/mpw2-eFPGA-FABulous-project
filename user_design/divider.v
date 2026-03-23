@@ -1,5 +1,5 @@
 module divider(
-    input clk, start,
+    input clk, start, rst,
     input [15:0] a,
     input [15:0] b,
     output reg [15:0] q
@@ -9,7 +9,14 @@ module divider(
     reg [30:0] divisor;
     reg running;
     always @(posedge clk) begin
-        if (start) begin
+        if (rst) begin
+            running <= 1'b0;
+            q <= 16'b0;
+            quotient <= 0;
+            dividend <= 0;
+            divisor <= 0;
+            quotient_msk <= 0;
+        end else if (start) begin
             running <= 1'b1;
             dividend <= a;
             divisor <= b << 14;

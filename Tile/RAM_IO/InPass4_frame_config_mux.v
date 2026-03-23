@@ -19,7 +19,7 @@ I1_reg=1,
 I2_reg=2,
 I3_reg=3
 *)
-module InPass4_frame_config_mux #(parameter NoConfigBits = 4)(
+module InPass4_frame_config #(parameter NoConfigBits = 4)(
     // Pin0
     (* FABulous, EXTERNAL *) input [3:0] I, //EXTERNAL
     output [3:0] O, //EXTERNAL

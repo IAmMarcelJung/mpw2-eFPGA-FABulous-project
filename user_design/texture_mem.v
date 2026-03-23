@@ -37,7 +37,8 @@ module texture_mem (
             wdat_samp <= {wdat_samp[1:0], write_data};
             write_go  <= 1'b0;
             if (wclk_samp[2] ^ wclk_samp[1]) begin
-                write_sr[7-write_bit] <= {write_sr[6:0], wdat_samp[2]};
+                // write_sr <= {write_sr[6:0], wdat_samp[2]};
+                write_sr[7-write_bit] <= wdat_samp[2];
                 if (write_bit == 7) begin
                     write_go  <= 1'b1;
                     write_bit <= 0;
@@ -50,9 +51,9 @@ module texture_mem (
 
     always @(posedge clk) begin
         if (write_rst) begin
-            write_state   <= 3'b000;
-            write_strobe  <= 8'b0;
-            write_address <= 12'b0;
+            write_state   <= 'b000;
+            write_strobe  <= 'b0;
+            write_address <= 'b0;
         end else begin
             case (write_state)
                 3'b000: begin

@@ -17,7 +17,7 @@
 c0=0,
 c1=1
 *)
-module MUX8LUT_frame_config_mux #(parameter NoConfigBits = 2)(
+module MUX8LUT_frame_config #(parameter NoConfigBits = 2)(
     // ConfigBits has to be adjusted manually (we don't use an arithmetic parser for the value)
     input A, // MUX inputs
     input B,

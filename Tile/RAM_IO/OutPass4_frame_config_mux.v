@@ -20,7 +20,7 @@ I2_reg=2,
 I3_reg=3
 *)
 // InPassFlop2 and OutPassFlop2 are the same except for changing which side I0,I1 or O0,O1 gets connected to the top entity
-module OutPass4_frame_config_mux #(parameter NoConfigBits = 4)(
+module OutPass4_frame_config #(parameter NoConfigBits = 4)(
     // NoConfigBits has to be adjusted manually (we don't use an arithmetic parser for the value)
     // Pin0
     input [3:0] I,
